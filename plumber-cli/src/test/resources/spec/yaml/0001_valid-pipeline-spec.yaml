@@ -1,0 +1,18 @@
+pipeline:
+  name: 0001_valid-pipeline-spec
+  description: 파싱 테스트용 파이프라인 yaml 스펙
+  trigger:
+    type: JENKINS
+    config:
+      url: http://localhost:8080
+      job: test
+      token: 1s158z7wew
+  stages:
+    - name: build
+      description: 빌드 스테이지
+      expectedStatus: SUCCESS
+    - name: deploy
+      description: 배포 스테이지
+      expectedStatus: SUCCESS
+  expectedStatus: SUCCESS
+  timeout: 30m
