@@ -14,23 +14,22 @@ class Pipeline(
     val trigger: Trigger,
     val stages: List<Stage>,
     val expectedStatus: PipelineTerminalStatus,
-    val timeout: String,
-) {
-}
+    val timeout: String
+)
 
 class Stage(
     val name: String,
     val description: String,
-    val expectedStatus: StageTerminalStatus,
+    val expectedStatus: StageTerminalStatus
 )
 
 class Trigger(
     val type: PipelineEngineType,
-    val config: JenkinsTriggerConfig,
+    val config: JenkinsTriggerConfig
 )
 
 class JenkinsTriggerConfig(
     val url: String,
     val job: String,
-    val token: String,
+    val token: String
 )

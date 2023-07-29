@@ -1,7 +1,7 @@
 package com.yuminkim.plumber.core.model.specification
 
 class Timeout(
-    private val durationInSeconds: Long,
+    private val durationInSeconds: Long
 ) {
     fun toSeconds(): Long {
         return durationInSeconds
@@ -40,6 +40,6 @@ class Timeout(
     enum class Unit {
         SECONDS,
         MINUTES,
-        HOURS,
+        HOURS
     }
 }
