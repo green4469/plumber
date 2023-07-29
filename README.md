@@ -30,9 +30,9 @@ the reason for failure.
 You can use the bot by **creating a specification file and running the bot with the file**. The bot will perform the tests
 listed in the specification. It sends the results to the specified notification channel.
 
-# Architecture
+# How it works
 
-![Architecture](docs/plumber-bot-architecture.jpg)
+![how-it-works](docs/plumber-bot-architecture.jpg)
 
 1. The engine triggers an external pipeline tool to execute the pipeline and initiates pipeline testing. It then periodically queries the pipeline execution results.
 2. The engine compares the pipeline execution results with the expected results specified in the testing specification.
