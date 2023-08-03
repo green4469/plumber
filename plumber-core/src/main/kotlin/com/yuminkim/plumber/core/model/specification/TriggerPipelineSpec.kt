@@ -1,6 +1,6 @@
 package com.yuminkim.plumber.core.model.specification
 
-class TriggerPipelineSpec private constructor(
+data class TriggerPipelineSpec private constructor(
     val type: PipelineEngineType,
     val config: TriggerPipelineConfig
 ) {
@@ -13,7 +13,7 @@ class TriggerPipelineSpec private constructor(
 
 interface TriggerPipelineConfig
 
-class JenkinsTriggerPipelineConfig(
+data class JenkinsTriggerPipelineConfig(
     val url: String,
     val job: String,
     val token: String

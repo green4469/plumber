@@ -1,6 +1,6 @@
 package com.yuminkim.plumber.core.model.specification
 
-class Timeout(
+data class Timeout(
     private val durationInSeconds: Long
 ) {
     fun toSeconds(): Long {

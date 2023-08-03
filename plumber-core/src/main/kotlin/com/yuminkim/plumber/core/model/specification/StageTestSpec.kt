@@ -1,6 +1,6 @@
 package com.yuminkim.plumber.core.model.specification
 
-class StageTestSpec(
+data class StageTestSpec(
     val name: String,
     val description: String,
     val expectedStatus: StageTerminalStatus
