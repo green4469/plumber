@@ -11,13 +11,13 @@ import org.springframework.stereotype.Component
 
 @Component
 class YamlPipelineTestSpecParser : PipelineTestSpecParser {
-    private val mapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
+  private val mapper = ObjectMapper(YAMLFactory()).registerKotlinModule()
 
-    override fun supports(rawSpec: RawPipelineTestSpec): Boolean {
-        return rawSpec.format == PipelineTestSpecFormat.YAML
-    }
+  override fun supports(rawSpec: RawPipelineTestSpec): Boolean {
+    return rawSpec.format == PipelineTestSpecFormat.YAML
+  }
 
-    override fun parse(rawSpec: RawPipelineTestSpec): CliPipelineTestSpec {
-        return mapper.readValue(rawSpec.spec, CliPipelineTestSpec::class.java)
-    }
+  override fun parse(rawSpec: RawPipelineTestSpec): CliPipelineTestSpec {
+    return mapper.readValue(rawSpec.spec, CliPipelineTestSpec::class.java)
+  }
 }

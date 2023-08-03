@@ -4,7 +4,7 @@ import com.yuminkim.plumber.cli.loader.RawPipelineTestSpec
 import com.yuminkim.plumber.cli.specification.CliPipelineTestSpec
 
 interface PipelineTestSpecParser {
-    fun supports(rawSpec: RawPipelineTestSpec): Boolean
+  fun supports(rawSpec: RawPipelineTestSpec): Boolean
 
-    fun parse(rawSpec: RawPipelineTestSpec): CliPipelineTestSpec
+  fun parse(rawSpec: RawPipelineTestSpec): CliPipelineTestSpec
 }

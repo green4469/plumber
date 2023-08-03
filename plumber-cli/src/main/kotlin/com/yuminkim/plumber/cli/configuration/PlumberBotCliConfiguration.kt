@@ -6,13 +6,13 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @ComponentScan(
-    basePackages = [
-        "com.yuminkim.plumber"
-    ]
+  basePackages = [
+    "com.yuminkim.plumber"
+  ]
 )
 @ConfigurationPropertiesScan(
-    basePackages = [
-        "com.yuminkim.plumber"
-    ]
+  basePackages = [
+    "com.yuminkim.plumber"
+  ]
 )
 class PlumberBotCliConfiguration

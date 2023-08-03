@@ -4,13 +4,13 @@ val jar: Jar by tasks
 val bootJar: BootJar by tasks
 
 plugins {
-    java
+  java
 }
 
 jar.enabled = true
 bootJar.enabled = true
 
 dependencies {
-    implementation(project(":plumber-core"))
-    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
+  implementation(project(":plumber-core"))
+  implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
 }

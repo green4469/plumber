@@ -1,6 +1,6 @@
 package com.yuminkim.plumber.core.model.specification
 
-class PipelineTestSpec(
+data class PipelineTestSpec(
     val name: String,
     val description: String,
     val trigger: TriggerPipelineSpec,
