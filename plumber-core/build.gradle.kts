@@ -4,7 +4,7 @@ val jar: Jar by tasks
 val bootJar: BootJar by tasks
 
 plugins {
-    java
+  java
 }
 
 jar.enabled = true
