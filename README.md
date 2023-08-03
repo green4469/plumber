@@ -30,6 +30,10 @@ the reason for failure.
 You can use the bot by **creating a specification file and running the bot with the file**. The bot will perform the tests
 listed in the specification. It sends the results to the specified notification channel.
 
+```shell
+make run spec-file=$(pwd)/tests/0001_valid-pipeline-spec.yaml
+```
+
 # How it works
 
 ![how-it-works](docs/plumber-bot-architecture.jpg)

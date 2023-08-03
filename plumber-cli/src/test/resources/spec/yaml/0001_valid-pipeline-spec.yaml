@@ -1,0 +1,18 @@
+pipeline:
+  name: 0001_valid-pipeline-spec
+  description: Test CLI parsing logic
+  trigger:
+    type: JENKINS
+    config:
+      url: http://localhost:8080
+      job: test
+      token: 1s158z7wew
+  stages:
+    - name: build
+      description: Build stage
+      expectedStatus: SUCCESS
+    - name: deploy
+      description: Deploy stage
+      expectedStatus: SUCCESS
+  expectedStatus: SUCCESS
+  timeout: 30m

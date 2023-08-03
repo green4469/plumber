@@ -8,7 +8,9 @@ plugins {
 }
 
 jar.enabled = true
-bootJar.enabled = false
+bootJar.enabled = true
 
 dependencies {
+  implementation(project(":plumber-core"))
+  implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
 }
