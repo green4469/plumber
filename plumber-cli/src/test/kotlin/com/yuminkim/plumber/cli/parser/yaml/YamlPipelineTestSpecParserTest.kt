@@ -1,6 +1,7 @@
 package com.yuminkim.plumber.cli.parser.yaml
 
 import com.yuminkim.plumber.cli.loader.FilePipelineTestSpecLoader
+import com.yuminkim.plumber.cli.loader.RawPipelineTestSpec
 import com.yuminkim.plumber.core.model.specification.PipelineEngineType
 import com.yuminkim.plumber.core.model.specification.PipelineTerminalStatus
 import com.yuminkim.plumber.core.model.specification.StageTerminalStatus
@@ -9,13 +10,18 @@ import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
 
 class YamlPipelineTestSpecParserTest : DescribeSpec({
-  val parser = YamlPipelineTestSpecParser()
+  lateinit var parser: YamlPipelineTestSpecParser
 
   describe("parse") {
+    lateinit var rawSpec: RawPipelineTestSpec
+
     context("when the spec is valid") {
-      val rawSpec = FilePipelineTestSpecLoader.load(
-        "src/test/resources/spec/yaml/0001_valid-pipeline-spec.yaml"
-      )
+      beforeEach {
+        rawSpec = FilePipelineTestSpecLoader.load(
+          "src/test/resources/spec/yaml/0001_valid-pipeline-spec.yaml"
+        )
+        parser = YamlPipelineTestSpecParser()
+      }
 
       it("should return pipeline spec") {
         val spec = parser.parse(rawSpec)
