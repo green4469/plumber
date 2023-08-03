@@ -24,10 +24,10 @@ class PlumberBotCliApplication(
   override fun run(args: ApplicationArguments) {
     logger.info("PlumberBotCliApplication is running")
 
-    val args = args.parseArgs()
-    logger.info("args: $args")
+    val botArgs = args.parseArgs()
+    logger.info("args: $botArgs")
 
-    val testSpec = parseSpecFile(args.specFile)
+    val testSpec = parseSpecFile(botArgs.specFile)
     logger.info("testSpec: $testSpec")
   }
 
