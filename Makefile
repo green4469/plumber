@@ -8,4 +8,4 @@ clean:
 	./gradlew :plumber-cli:clean
 
 format:
-	./gradlew :plumber-cli:ktlintFormat
+	./gradlew :ktlintFormat
