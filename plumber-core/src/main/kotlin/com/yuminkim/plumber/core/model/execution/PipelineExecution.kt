@@ -11,5 +11,6 @@ class PipelineExecution(
 )
 
 class StageExecution(
+  val name: String,
   val status: StageStatus,
 )

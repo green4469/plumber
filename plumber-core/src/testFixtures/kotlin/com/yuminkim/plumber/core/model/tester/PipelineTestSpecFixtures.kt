@@ -22,7 +22,7 @@ object PipelineTestSpecFixtures {
         ),
         stages = listOf(
           StageTestSpec(
-            name = "Test Stage",
+            name = "Build application",
             description = "Expect Stage Succeeded",
             expectedStatus = StageTerminalStatus.SUCCEEDED
           )

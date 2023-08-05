@@ -1,9 +1,26 @@
 package com.yuminkim.plumber.core.model.execution
 
+import com.yuminkim.plumber.core.model.pipeline.PipelineStatus
+import com.yuminkim.plumber.core.model.pipeline.StageStatus
+import java.time.ZonedDateTime
+
 object PipelineExecutionFixtures {
   object Failed {
     fun create(): PipelineExecution {
-      TODO("Not yet implemented")
+      return PipelineExecution(
+        stages = listOf(
+          StageExecution(
+            name = "Build application",
+            status = StageStatus.FAILED,
+          ),
+          StageExecution(
+            name = "Deploy",
+            status = StageStatus.WAITING,
+          ),
+        ),
+        status = PipelineStatus.FAILED,
+        startedAt = ZonedDateTime.parse("2023-01-01T00:00:00Z"),
+      )
     }
   }
 }
