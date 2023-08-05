@@ -1,7 +1,10 @@
 package com.yuminkim.plumber.core.model.tester
 
 enum class PipelineTestStatus {
+  TESTING,
+
+  // Terminal status
   PASSED,
   FAILED,
-  TESTING;
+  TIMED_OUT;
 }
