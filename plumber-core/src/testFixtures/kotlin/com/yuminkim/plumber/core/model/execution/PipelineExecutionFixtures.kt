@@ -10,6 +10,7 @@ object PipelineExecutionFixtures {
       return PipelineExecution(
         stages = listOf(
           StageExecution(
+            // Stage test name has interdependency with pipeline test spec
             name = "Build application",
             status = StageStatus.FAILED,
           ),
@@ -24,3 +25,4 @@ object PipelineExecutionFixtures {
     }
   }
 }
+

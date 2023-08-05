@@ -22,6 +22,7 @@ object PipelineTestSpecFixtures {
         ),
         stages = listOf(
           StageTestSpec(
+            // Stage test name has interdependency with pipeline execution
             name = "Build application",
             description = "Expect Stage Succeeded",
             expectedStatus = StageTerminalStatus.SUCCEEDED
