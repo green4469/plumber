@@ -8,3 +8,9 @@ data class PipelineTestSpec(
   val expectedStatus: PipelineTerminalStatus,
   val timeout: Timeout = Timeout.of(20, Timeout.Unit.MINUTES)
 )
+
+enum class PipelineTerminalStatus {
+  SUCCESS,
+  FAILURE,
+  ABORTED
+}

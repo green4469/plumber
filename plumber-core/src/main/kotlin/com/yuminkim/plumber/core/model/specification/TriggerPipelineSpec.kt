@@ -11,6 +11,10 @@ data class TriggerPipelineSpec private constructor(
   }
 }
 
+enum class PipelineEngineType {
+  JENKINS
+}
+
 interface TriggerPipelineConfig
 
 data class JenkinsTriggerPipelineConfig(
