@@ -5,12 +5,6 @@ data class PipelineTestSpec(
   val description: String,
   val trigger: TriggerPipelineSpec,
   val stages: List<StageTestSpec>,
-  val expectedStatus: PipelineTerminalStatus,
+  val expectedStatus: ExpectedPipelineTerminalStatus,
   val timeout: Timeout = Timeout.of(20, Timeout.Unit.MINUTES)
 )
-
-enum class PipelineTerminalStatus {
-  SUCCEEDED,
-  FAILED,
-  ABORTED
-}

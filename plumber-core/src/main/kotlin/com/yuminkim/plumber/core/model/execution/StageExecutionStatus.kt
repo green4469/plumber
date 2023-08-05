@@ -1,6 +1,6 @@
-package com.yuminkim.plumber.core.model.pipeline
+package com.yuminkim.plumber.core.model.execution
 
-enum class StageStatus {
+enum class StageExecutionStatus {
   WAITING,
   RUNNING,
 

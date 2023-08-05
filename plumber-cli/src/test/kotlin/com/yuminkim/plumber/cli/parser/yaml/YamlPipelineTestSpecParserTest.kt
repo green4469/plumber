@@ -2,9 +2,9 @@ package com.yuminkim.plumber.cli.parser.yaml
 
 import com.yuminkim.plumber.cli.loader.FilePipelineTestSpecLoader
 import com.yuminkim.plumber.cli.loader.RawPipelineTestSpec
+import com.yuminkim.plumber.core.model.specification.ExpectedPipelineTerminalStatus
+import com.yuminkim.plumber.core.model.specification.ExpectedStageTerminalStatus
 import com.yuminkim.plumber.core.model.specification.PipelineEngineType
-import com.yuminkim.plumber.core.model.specification.PipelineTerminalStatus
-import com.yuminkim.plumber.core.model.specification.StageTerminalStatus
 import io.kotest.assertions.asClue
 import io.kotest.core.spec.style.DescribeSpec
 import io.kotest.matchers.shouldBe
@@ -29,7 +29,7 @@ class YamlPipelineTestSpecParserTest : DescribeSpec({
         spec.pipeline.asClue {
           it.name shouldBe "0001_valid-pipeline-spec"
           it.description shouldBe "Test CLI parsing logic"
-          it.expectedStatus shouldBe PipelineTerminalStatus.SUCCEEDED
+          it.expectedStatus shouldBe ExpectedPipelineTerminalStatus.SUCCEEDED
           it.timeout shouldBe "30m"
         }
 
@@ -45,11 +45,11 @@ class YamlPipelineTestSpecParserTest : DescribeSpec({
 
           it[0].name shouldBe "build"
           it[0].description shouldBe "Build stage"
-          it[0].expectedStatus shouldBe StageTerminalStatus.SUCCEEDED
+          it[0].expectedStatus shouldBe ExpectedStageTerminalStatus.SUCCEEDED
 
           it[1].name shouldBe "deploy"
           it[1].description shouldBe "Deploy stage"
-          it[1].expectedStatus shouldBe StageTerminalStatus.SUCCEEDED
+          it[1].expectedStatus shouldBe ExpectedStageTerminalStatus.SUCCEEDED
         }
       }
     }

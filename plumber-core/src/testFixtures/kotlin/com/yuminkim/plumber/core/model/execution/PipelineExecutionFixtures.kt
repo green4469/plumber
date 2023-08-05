@@ -1,7 +1,5 @@
 package com.yuminkim.plumber.core.model.execution
 
-import com.yuminkim.plumber.core.model.pipeline.PipelineStatus
-import com.yuminkim.plumber.core.model.pipeline.StageStatus
 import java.time.ZonedDateTime
 
 object PipelineExecutionFixtures {
@@ -12,17 +10,16 @@ object PipelineExecutionFixtures {
           StageExecution(
             // Stage test name has interdependency with pipeline test spec
             name = "Build application",
-            status = StageStatus.FAILED,
+            status = StageExecutionStatus.FAILED
           ),
           StageExecution(
             name = "Deploy",
-            status = StageStatus.WAITING,
-          ),
+            status = StageExecutionStatus.WAITING
+          )
         ),
-        status = PipelineStatus.FAILED,
-        startedAt = ZonedDateTime.parse("2023-01-01T00:00:00Z"),
+        status = PipelineExecutionStatus.FAILED,
+        startedAt = ZonedDateTime.parse("2023-01-01T00:00:00Z")
       )
     }
   }
 }
-

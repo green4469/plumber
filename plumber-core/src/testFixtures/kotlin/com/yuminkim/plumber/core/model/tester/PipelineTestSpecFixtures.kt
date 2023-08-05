@@ -1,9 +1,9 @@
 package com.yuminkim.plumber.core.model.tester
 
+import com.yuminkim.plumber.core.model.specification.ExpectedPipelineTerminalStatus
+import com.yuminkim.plumber.core.model.specification.ExpectedStageTerminalStatus
 import com.yuminkim.plumber.core.model.specification.JenkinsTriggerPipelineConfig
-import com.yuminkim.plumber.core.model.specification.PipelineTerminalStatus
 import com.yuminkim.plumber.core.model.specification.PipelineTestSpec
-import com.yuminkim.plumber.core.model.specification.StageTerminalStatus
 import com.yuminkim.plumber.core.model.specification.StageTestSpec
 import com.yuminkim.plumber.core.model.specification.TriggerPipelineSpec
 
@@ -25,10 +25,10 @@ object PipelineTestSpecFixtures {
             // Stage test name has interdependency with pipeline execution
             name = "Build application",
             description = "Expect Stage Succeeded",
-            expectedStatus = StageTerminalStatus.SUCCEEDED
+            expectedStatus = ExpectedStageTerminalStatus.SUCCEEDED
           )
         ),
-        expectedStatus = PipelineTerminalStatus.SUCCEEDED
+        expectedStatus = ExpectedPipelineTerminalStatus.SUCCEEDED
       )
     }
   }
