@@ -10,7 +10,7 @@ data class PipelineTestSpec(
 )
 
 enum class PipelineTerminalStatus {
-  SUCCESS,
-  FAILURE,
+  SUCCEEDED,
+  FAILED,
   ABORTED
 }

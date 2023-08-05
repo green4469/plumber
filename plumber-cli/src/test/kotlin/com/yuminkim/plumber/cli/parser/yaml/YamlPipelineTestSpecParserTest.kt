@@ -29,7 +29,7 @@ class YamlPipelineTestSpecParserTest : DescribeSpec({
         spec.pipeline.asClue {
           it.name shouldBe "0001_valid-pipeline-spec"
           it.description shouldBe "Test CLI parsing logic"
-          it.expectedStatus shouldBe PipelineTerminalStatus.SUCCESS
+          it.expectedStatus shouldBe PipelineTerminalStatus.SUCCEEDED
           it.timeout shouldBe "30m"
         }
 
@@ -45,11 +45,11 @@ class YamlPipelineTestSpecParserTest : DescribeSpec({
 
           it[0].name shouldBe "build"
           it[0].description shouldBe "Build stage"
-          it[0].expectedStatus shouldBe StageTerminalStatus.SUCCESS
+          it[0].expectedStatus shouldBe StageTerminalStatus.SUCCEEDED
 
           it[1].name shouldBe "deploy"
           it[1].description shouldBe "Deploy stage"
-          it[1].expectedStatus shouldBe StageTerminalStatus.SUCCESS
+          it[1].expectedStatus shouldBe StageTerminalStatus.SUCCEEDED
         }
       }
     }

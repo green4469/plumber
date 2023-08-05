@@ -7,7 +7,7 @@ data class StageTestSpec(
 )
 
 enum class StageTerminalStatus {
-  SUCCESS,
-  FAILURE,
+  SUCCEEDED,
+  FAILED,
   ABORTED
 }

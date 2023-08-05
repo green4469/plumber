@@ -11,23 +11,23 @@ object PipelineTestSpecFixtures {
   object ExpectingSuccess {
     fun create(): PipelineTestSpec {
       return PipelineTestSpec(
-        name = "test",
-        description = "test",
+        name = "Test Pipeline",
+        description = "Expect Single Stage and Pipeline Succeeded",
         trigger = TriggerPipelineSpec.jenkins(
           config = JenkinsTriggerPipelineConfig(
-            url = "",
-            job = "",
-            token = ""
+            url = "http://localhost:8080",
+            job = "jenkins-job",
+            token = "1s158z7wew"
           )
         ),
         stages = listOf(
           StageTestSpec(
-            name = "test",
-            description = "test",
-            expectedStatus = StageTerminalStatus.SUCCESS
+            name = "Test Stage",
+            description = "Expect Stage Succeeded",
+            expectedStatus = StageTerminalStatus.SUCCEEDED
           )
         ),
-        expectedStatus = PipelineTerminalStatus.SUCCESS
+        expectedStatus = PipelineTerminalStatus.SUCCEEDED
       )
     }
   }
