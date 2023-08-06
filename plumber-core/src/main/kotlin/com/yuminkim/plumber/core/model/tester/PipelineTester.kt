@@ -55,8 +55,7 @@ class PipelineTester(
       status = pipelineTestResultStatus
     )
 
-    val executionDuration = timeHolder.now().toEpochSecond() - startedAt.toEpochSecond()
-    if (executionDuration > timeout.toSeconds()) {
+    if (isTimedOut(timeout, startedAt)) {
       return PipelineTestResult.failed(
         detail = pipelineTestResultDetail,
         reason = "Pipeline execution timed out. (timeout: $timeout)"
@@ -83,6 +82,14 @@ class PipelineTester(
 
   private fun List<StageExecution>.findByName(name: String): StageExecution? {
     return this.find { it.name == name }
+  }
+
+  private fun isTimedOut(timeout: Timeout, startedAt: ZonedDateTime): Boolean {
+    return timeHolder.now().sinceInSeconds(startedAt) > timeout.toSeconds()
+  }
+
+  private fun ZonedDateTime.sinceInSeconds(startedAt: ZonedDateTime): Long {
+    return this.toEpochSecond() - startedAt.toEpochSecond()
   }
 
   private fun List<StageTestResult>.allPassed(): Boolean {
