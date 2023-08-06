@@ -1,11 +1,17 @@
-run: build
+run-cli: build
 	java -jar plumber-cli/build/libs/plumber-cli-0.0.1-SNAPSHOT.jar --spec-file=$(spec-file)
 
-build: clean
+build-cli: clean
 	./gradlew :plumber-cli:build
 
 clean:
-	./gradlew :plumber-cli:clean
+	./gradlew clean
 
 format:
 	./gradlew ktlintFormat
+
+coverage: test
+	./gradlew jacocoRootReport
+
+test:
+	./gradlew test
