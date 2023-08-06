@@ -3,7 +3,6 @@ package com.yuminkim.plumber.cli
 import com.yuminkim.plumber.cli.loader.FilePipelineTestSpecLoader
 import com.yuminkim.plumber.cli.parser.PipelineTestSpecParser
 import com.yuminkim.plumber.cli.specification.CliPipelineTestSpec
-import com.yuminkim.plumber.core.model.PipelineTestEngine
 import com.yuminkim.plumber.core.model.specification.JenkinsTriggerPipelineConfig
 import com.yuminkim.plumber.core.model.specification.PipelineTestSpec
 import com.yuminkim.plumber.core.model.specification.StageTestSpec
@@ -20,8 +19,7 @@ import org.springframework.boot.runApplication
 @SpringBootApplication
 class PlumberBotCliApplication(
   @Qualifier("compositePipelineTestSpecParser")
-  private val pipelineTestSpecParser: PipelineTestSpecParser,
-  private val pipelineTestEngine: PipelineTestEngine
+  private val pipelineTestSpecParser: PipelineTestSpecParser
 ) : ApplicationRunner {
   override fun run(args: ApplicationArguments) {
     logger.info("PlumberBotCliApplication is running")
@@ -31,9 +29,6 @@ class PlumberBotCliApplication(
 
     val testSpec = parseSpecFile(botArgs.specFile)
     logger.info("testSpec: $testSpec")
-
-    logger.info("Run pipeline test...")
-    pipelineTestEngine.run(testSpec)
   }
 
   private fun ApplicationArguments.parseArgs(): PlumberBotCliArguments {
