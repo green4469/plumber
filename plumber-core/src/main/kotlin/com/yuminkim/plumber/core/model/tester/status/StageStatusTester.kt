@@ -13,6 +13,8 @@ object StageStatusTester {
       return TestResultStatus.PASSED
     }
 
-    return TestResultStatus.FAILED("Stage execution status($actual) does not match with expected status($expected).")
+    return TestResultStatus.FAILED(
+      "Stage execution status($actual) does not match with expected status($expected)."
+    )
   }
 }

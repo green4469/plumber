@@ -39,7 +39,7 @@ class StageStatusTesterTest : DescribeSpec({
           expected = ExpectedStageTerminalStatus.SUCCEEDED,
           actual = StageExecutionStatus.ABORTED,
           shouldBe = TestResultStatus.FAILED("")
-        ),
+        )
       ).forEach { (expected, actual, shouldBe) ->
         context("when expected is $expected and actual is $actual") {
           it("should be $shouldBe") {
@@ -80,7 +80,7 @@ class StageStatusTesterTest : DescribeSpec({
           expected = ExpectedStageTerminalStatus.FAILED,
           actual = StageExecutionStatus.ABORTED,
           shouldBe = TestResultStatus.FAILED("")
-        ),
+        )
       ).forEach { (expected, actual, shouldBe) ->
         context("when expected is $expected and actual is $actual") {
           it("should be $shouldBe") {
@@ -121,7 +121,7 @@ class StageStatusTesterTest : DescribeSpec({
           expected = ExpectedStageTerminalStatus.ABORTED,
           actual = StageExecutionStatus.ABORTED,
           shouldBe = TestResultStatus.PASSED
-        ),
+        )
       ).forEach { (expected, actual, shouldBe) ->
         context("when expected is $expected and actual is $actual") {
           it("should be $shouldBe") {
@@ -162,7 +162,7 @@ class StageStatusTesterTest : DescribeSpec({
           expected = ExpectedStageTerminalStatus.SKIPPED,
           actual = StageExecutionStatus.ABORTED,
           shouldBe = TestResultStatus.FAILED("")
-        ),
+        )
       ).forEach { (expected, actual, shouldBe) ->
         context("when expected is $expected and actual is $actual") {
           it("should be $shouldBe") {

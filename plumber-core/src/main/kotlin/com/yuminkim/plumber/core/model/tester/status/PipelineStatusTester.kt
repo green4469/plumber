@@ -16,6 +16,8 @@ object PipelineStatusTester {
       return TestResultStatus.PASSED
     }
 
-    return TestResultStatus.FAILED("Pipeline execution status($actual) does not match with expected status($expected).")
+    return TestResultStatus.FAILED(
+      "Pipeline execution status($actual) does not match with expected status($expected)."
+    )
   }
 }

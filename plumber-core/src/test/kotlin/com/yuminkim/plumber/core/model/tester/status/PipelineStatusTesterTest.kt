@@ -34,7 +34,7 @@ class PipelineStatusTesterTest : DescribeSpec({
           expected = ExpectedPipelineTerminalStatus.SUCCEEDED,
           actual = PipelineExecutionStatus.ABORTED,
           shouldBe = TestResultStatus.FAILED("")
-        ),
+        )
       ).forEach { (expected, actual, shouldBe) ->
         context("when expected is $expected and actual is $actual") {
           it("should be $shouldBe") {
@@ -70,7 +70,7 @@ class PipelineStatusTesterTest : DescribeSpec({
           expected = ExpectedPipelineTerminalStatus.FAILED,
           actual = PipelineExecutionStatus.ABORTED,
           shouldBe = TestResultStatus.FAILED("")
-        ),
+        )
       ).forEach { (expected, actual, shouldBe) ->
         context("when expected is $expected and actual is $actual") {
           it("should be $shouldBe") {
@@ -106,7 +106,7 @@ class PipelineStatusTesterTest : DescribeSpec({
           expected = ExpectedPipelineTerminalStatus.ABORTED,
           actual = PipelineExecutionStatus.ABORTED,
           shouldBe = TestResultStatus.PASSED
-        ),
+        )
       ).forEach { (expected, actual, shouldBe) ->
         context("when expected is $expected and actual is $actual") {
           it("should be $shouldBe") {
