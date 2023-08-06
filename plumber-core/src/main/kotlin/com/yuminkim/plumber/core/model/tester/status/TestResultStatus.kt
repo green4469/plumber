@@ -21,4 +21,8 @@ sealed class TestResultStatus {
   fun isTesting(): Boolean {
     return this == TESTING
   }
+
+  fun isTerminal(): Boolean {
+    return isPassed() || isFailed()
+  }
 }
