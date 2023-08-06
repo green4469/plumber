@@ -38,4 +38,13 @@ class PipelineTestResultDetail(
 class StageTestResult(
   val name: String,
   val status: TestResultStatus
-)
+) {
+  companion object {
+    fun failed(name: String, reason: String): StageTestResult {
+      return StageTestResult(
+        name = name,
+        status = TestResultStatus.FAILED(reason)
+      )
+    }
+  }
+}

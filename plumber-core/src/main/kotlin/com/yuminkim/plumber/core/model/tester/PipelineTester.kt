@@ -32,9 +32,9 @@ class PipelineTester(
   ): List<StageTestResult> {
     return specStages.map { stageTestSpec ->
       val stageExecution = executionStages.findByName(stageTestSpec.name)
-        ?: return@map StageTestResult(
+        ?: return@map StageTestResult.failed(
           name = stageTestSpec.name,
-          status = TestResultStatus.FAILED("Stage execution(${stageTestSpec.name}) does not exist.")
+          reason = "Stage execution(${stageTestSpec.name}) does not exist."
         )
       val stageTestResultStatus = StageStatusTester.test(stageTestSpec.expectedStatus, stageExecution.status)
       StageTestResult(
