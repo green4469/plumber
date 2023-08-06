@@ -31,15 +31,12 @@ class PipelineTester(
     executionStages: List<StageExecution>
   ): List<StageTestResult> {
     return specStages.map { stageTestSpec ->
-      val stageExecution = executionStages.find { it.name == stageTestSpec.name }
-        ?: return@map StageTestResult(
+      val stageExecution = executionStages.findByName(stageTestSpec.name)
+        ?: return@map StageTestResult.failed(
           name = stageTestSpec.name,
-          status = TestResultStatus.FAILED("Stage execution(${stageTestSpec.name}) does not exist.")
+          reason = "Stage execution(${stageTestSpec.name}) does not exist."
         )
-
-      val stageTestResultStatus =
-        StageStatusTester.test(stageTestSpec.expectedStatus, stageExecution.status)
-
+      val stageTestResultStatus = StageStatusTester.test(stageTestSpec.expectedStatus, stageExecution.status)
       StageTestResult(
         name = stageTestSpec.name,
         status = stageTestResultStatus
@@ -53,47 +50,57 @@ class PipelineTester(
     timeout: Timeout,
     startedAt: ZonedDateTime
   ): PipelineTestResult {
-    val executionDuration = timeHolder.now().toEpochSecond() - startedAt.toEpochSecond()
-    if (executionDuration > timeout.toSeconds()) {
-      return PipelineTestResult(
-        overallStatus = TestResultStatus.FAILED("Pipeline execution timed out. (timeout: $timeout)"),
-        detail = PipelineTestResultDetail(
-          stages = stageTestResults,
-          status = pipelineTestResultStatus
-        )
+    val pipelineTestResultDetail = PipelineTestResultDetail(
+      stages = stageTestResults,
+      status = pipelineTestResultStatus
+    )
+
+    if (isTimedOut(timeout, startedAt)) {
+      return PipelineTestResult.failed(
+        detail = pipelineTestResultDetail,
+        reason = "Pipeline execution timed out. (timeout: $timeout)"
       )
     }
 
-    if (pipelineTestResultStatus.isPassed() && stageTestResults.all { it.status.isPassed() }) {
-      return PipelineTestResult(
-        overallStatus = TestResultStatus.PASSED,
-        detail = PipelineTestResultDetail(
-          stages = stageTestResults,
-          status = pipelineTestResultStatus
-        )
+    if (pipelineTestResultStatus.isPassed() && stageTestResults.allPassed()) {
+      return PipelineTestResult.passed(pipelineTestResultDetail)
+    }
+
+    if (pipelineTestResultStatus.isFailed() || stageTestResults.anyFailed()) {
+      return PipelineTestResult.failed(
+        detail = pipelineTestResultDetail,
+        reason = "Pipeline execution failed."
       )
     }
 
-    if (pipelineTestResultStatus.isFailed() || stageTestResults.any { it.status.isFailed() }) {
-      return PipelineTestResult(
-        overallStatus = TestResultStatus.FAILED("One or more tests failed."),
-        detail = PipelineTestResultDetail(
-          stages = stageTestResults,
-          status = pipelineTestResultStatus
-        )
-      )
-    }
-
-    if (pipelineTestResultStatus == TestResultStatus.TESTING || stageTestResults.any { it.status == TestResultStatus.TESTING }) {
-      return PipelineTestResult(
-        overallStatus = TestResultStatus.TESTING,
-        detail = PipelineTestResultDetail(
-          stages = stageTestResults,
-          status = pipelineTestResultStatus
-        )
-      )
+    if (pipelineTestResultStatus.isTesting() || stageTestResults.anyTesting()) {
+      return PipelineTestResult.testing(pipelineTestResultDetail)
     }
 
     throw IllegalStateException("Unexpected test result status.")
   }
+
+  private fun isTimedOut(timeout: Timeout, startedAt: ZonedDateTime): Boolean {
+    return timeHolder.now().sinceToSeconds(startedAt) > timeout.toSeconds()
+  }
+}
+
+private fun List<StageExecution>.findByName(name: String): StageExecution? {
+  return this.find { it.name == name }
+}
+
+private fun List<StageTestResult>.allPassed(): Boolean {
+  return this.all { it.status.isPassed() }
+}
+
+private fun List<StageTestResult>.anyFailed(): Boolean {
+  return this.any { it.status.isFailed() }
+}
+
+private fun List<StageTestResult>.anyTesting(): Boolean {
+  return this.any { it.status.isTesting() }
+}
+
+private fun ZonedDateTime.sinceToSeconds(startedAt: ZonedDateTime): Long {
+  return this.toEpochSecond() - startedAt.toEpochSecond()
 }
