@@ -7,14 +7,6 @@ data class Timeout(
     return durationInSeconds
   }
 
-  fun toMinutes(): Long {
-    return durationInSeconds / 60
-  }
-
-  fun toHours(): Long {
-    return durationInSeconds / 3600
-  }
-
   companion object {
     fun from(expr: String): Timeout {
       // expr: 1h, 1m, 1s
