@@ -80,27 +80,27 @@ class PipelineTester(
     throw IllegalStateException("Unexpected test result status.")
   }
 
-  private fun List<StageExecution>.findByName(name: String): StageExecution? {
-    return this.find { it.name == name }
-  }
-
   private fun isTimedOut(timeout: Timeout, startedAt: ZonedDateTime): Boolean {
-    return timeHolder.now().sinceInSeconds(startedAt) > timeout.toSeconds()
+    return timeHolder.now().sinceToSeconds(startedAt) > timeout.toSeconds()
   }
+}
 
-  private fun ZonedDateTime.sinceInSeconds(startedAt: ZonedDateTime): Long {
-    return this.toEpochSecond() - startedAt.toEpochSecond()
-  }
+private fun List<StageExecution>.findByName(name: String): StageExecution? {
+  return this.find { it.name == name }
+}
 
-  private fun List<StageTestResult>.allPassed(): Boolean {
-    return this.all { it.status.isPassed() }
-  }
+private fun List<StageTestResult>.allPassed(): Boolean {
+  return this.all { it.status.isPassed() }
+}
 
-  private fun List<StageTestResult>.anyFailed(): Boolean {
-    return this.any { it.status.isFailed() }
-  }
+private fun List<StageTestResult>.anyFailed(): Boolean {
+  return this.any { it.status.isFailed() }
+}
 
-  private fun List<StageTestResult>.anyTesting(): Boolean {
-    return this.any { it.status.isTesting() }
-  }
+private fun List<StageTestResult>.anyTesting(): Boolean {
+  return this.any { it.status.isTesting() }
+}
+
+private fun ZonedDateTime.sinceToSeconds(startedAt: ZonedDateTime): Long {
+  return this.toEpochSecond() - startedAt.toEpochSecond()
 }
