@@ -31,7 +31,7 @@ class PipelineTester(
     executionStages: List<StageExecution>
   ): List<StageTestResult> {
     return specStages.map { stageTestSpec ->
-      val stageExecution = executionStages.find { it.name == stageTestSpec.name }
+      val stageExecution = executionStages.findByName(stageTestSpec.name)
         ?: return@map StageTestResult(
           name = stageTestSpec.name,
           status = TestResultStatus.FAILED("Stage execution(${stageTestSpec.name}) does not exist.")
@@ -64,7 +64,7 @@ class PipelineTester(
       )
     }
 
-    if (pipelineTestResultStatus.isPassed() && stageTestResults.all { it.status.isPassed() }) {
+    if (pipelineTestResultStatus.isPassed() && stageTestResults.allPassed()) {
       return PipelineTestResult(
         overallStatus = TestResultStatus.PASSED,
         detail = PipelineTestResultDetail(
@@ -74,7 +74,7 @@ class PipelineTester(
       )
     }
 
-    if (pipelineTestResultStatus.isFailed() || stageTestResults.any { it.status.isFailed() }) {
+    if (pipelineTestResultStatus.isFailed() || stageTestResults.anyFailed()) {
       return PipelineTestResult(
         overallStatus = TestResultStatus.FAILED("One or more tests failed."),
         detail = PipelineTestResultDetail(
@@ -84,7 +84,7 @@ class PipelineTester(
       )
     }
 
-    if (pipelineTestResultStatus == TestResultStatus.TESTING || stageTestResults.any { it.status == TestResultStatus.TESTING }) {
+    if (pipelineTestResultStatus == TestResultStatus.TESTING || stageTestResults.anyTesting()) {
       return PipelineTestResult(
         overallStatus = TestResultStatus.TESTING,
         detail = PipelineTestResultDetail(
@@ -95,5 +95,21 @@ class PipelineTester(
     }
 
     throw IllegalStateException("Unexpected test result status.")
+  }
+
+  private fun List<StageExecution>.findByName(name: String): StageExecution? {
+    return this.find { it.name == name }
+  }
+
+  private fun List<StageTestResult>.allPassed(): Boolean {
+    return this.all { it.status.isPassed() }
+  }
+
+  private fun List<StageTestResult>.anyFailed(): Boolean {
+    return this.any { it.status.isFailed() }
+  }
+
+  private fun List<StageTestResult>.anyTesting(): Boolean {
+    return this.any { it.status.isTesting() }
   }
 }

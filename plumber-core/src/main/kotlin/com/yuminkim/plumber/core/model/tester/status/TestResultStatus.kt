@@ -17,4 +17,8 @@ sealed class TestResultStatus {
   fun isFailed(): Boolean {
     return this is FAILED
   }
+
+  fun isTesting(): Boolean {
+    return this == TESTING
+  }
 }
