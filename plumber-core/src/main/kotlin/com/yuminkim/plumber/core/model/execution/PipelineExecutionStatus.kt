@@ -8,4 +8,8 @@ enum class PipelineExecutionStatus {
   SUCCEEDED,
   FAILED,
   ABORTED;
+
+  fun isTerminal(): Boolean {
+    return this == SUCCEEDED || this == FAILED || this == ABORTED
+  }
 }

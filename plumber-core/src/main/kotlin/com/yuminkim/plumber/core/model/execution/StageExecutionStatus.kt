@@ -9,4 +9,8 @@ enum class StageExecutionStatus {
   SUCCEEDED,
   FAILED,
   ABORTED;
+
+  fun isTerminal(): Boolean {
+    return this == SKIPPED || this == SUCCEEDED || this == FAILED || this == ABORTED
+  }
 }
