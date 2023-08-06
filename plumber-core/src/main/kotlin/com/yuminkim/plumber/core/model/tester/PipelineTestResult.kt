@@ -1,5 +1,7 @@
 package com.yuminkim.plumber.core.model.tester
 
+import com.yuminkim.plumber.core.model.tester.status.TestResultStatus
+
 class PipelineTestResult(
   val overallStatus: TestResultStatus,
   val detail: PipelineTestResultDetail

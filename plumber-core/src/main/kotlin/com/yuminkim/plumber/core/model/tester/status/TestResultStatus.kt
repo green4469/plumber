@@ -1,4 +1,4 @@
-package com.yuminkim.plumber.core.model.tester
+package com.yuminkim.plumber.core.model.tester.status
 
 sealed class TestResultStatus {
   object TESTING : TestResultStatus()

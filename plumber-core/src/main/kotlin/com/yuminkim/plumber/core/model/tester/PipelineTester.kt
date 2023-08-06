@@ -1,73 +1,69 @@
 package com.yuminkim.plumber.core.model.tester
 
 import com.yuminkim.plumber.core.model.execution.PipelineExecution
-import com.yuminkim.plumber.core.model.execution.PipelineExecutionStatus
 import com.yuminkim.plumber.core.model.execution.StageExecution
-import com.yuminkim.plumber.core.model.execution.StageExecutionStatus
-import com.yuminkim.plumber.core.model.specification.ExpectedPipelineTerminalStatus
-import com.yuminkim.plumber.core.model.specification.ExpectedStageTerminalStatus
 import com.yuminkim.plumber.core.model.specification.PipelineTestSpec
 import com.yuminkim.plumber.core.model.specification.StageTestSpec
+import com.yuminkim.plumber.core.model.specification.Timeout
+import com.yuminkim.plumber.core.model.tester.status.PipelineStatusTester
+import com.yuminkim.plumber.core.model.tester.status.StageStatusTester
+import com.yuminkim.plumber.core.model.tester.status.TestResultStatus
+import org.springframework.stereotype.Component
+import java.time.ZonedDateTime
 
-object PipelineTester {
+@Component
+class PipelineTester(
+  private val timeHolder: TimeHolder
+) {
   fun test(spec: PipelineTestSpec, execution: PipelineExecution): PipelineTestResult {
-    val pipelineTestResultStatus = testPipelineStatus(spec.expectedStatus, execution.status)
+    val pipelineTestResultStatus = PipelineStatusTester.test(spec.expectedStatus, execution.status)
     val stageTestResults = testStages(spec.stages, execution.stages)
-    return determineOverallTestResult(pipelineTestResultStatus, stageTestResults)
-  }
-
-  private fun testPipelineStatus(
-    expected: ExpectedPipelineTerminalStatus,
-    actual: PipelineExecutionStatus
-  ): TestResultStatus {
-    if (actual == PipelineExecutionStatus.WAITING || actual == PipelineExecutionStatus.RUNNING) {
-      return TestResultStatus.TESTING
-    }
-
-    if (actual.name == expected.name) {
-      return TestResultStatus.PASSED
-    }
-
-    return TestResultStatus.FAILED("Pipeline execution status($actual) does not match with expected status($expected).")
+    return determineOverallTestResult(
+      pipelineTestResultStatus = pipelineTestResultStatus,
+      stageTestResults = stageTestResults,
+      timeout = spec.timeout,
+      startedAt = execution.startedAt
+    )
   }
 
   private fun testStages(
     specStages: List<StageTestSpec>,
     executionStages: List<StageExecution>
-  ): List<StageTestResult> = specStages.map { stageTestSpec ->
-    val stageExecution = executionStages.find { it.name == stageTestSpec.name }
-      ?: return@map StageTestResult(
+  ): List<StageTestResult> {
+    return specStages.map { stageTestSpec ->
+      val stageExecution = executionStages.find { it.name == stageTestSpec.name }
+        ?: return@map StageTestResult(
+          name = stageTestSpec.name,
+          status = TestResultStatus.FAILED("Stage execution(${stageTestSpec.name}) does not exist.")
+        )
+
+      val stageTestResultStatus =
+        StageStatusTester.test(stageTestSpec.expectedStatus, stageExecution.status)
+
+      StageTestResult(
         name = stageTestSpec.name,
-        status = TestResultStatus.FAILED("Stage execution(${stageTestSpec.name}) does not exist.")
+        status = stageTestResultStatus
       )
-
-    val stageTestResultStatus = testStageStatus(stageTestSpec.expectedStatus, stageExecution.status)
-
-    StageTestResult(
-      name = stageTestSpec.name,
-      status = stageTestResultStatus
-    )
-  }
-
-  private fun testStageStatus(
-    expected: ExpectedStageTerminalStatus,
-    actual: StageExecutionStatus
-  ): TestResultStatus {
-    if (actual == StageExecutionStatus.WAITING || actual == StageExecutionStatus.RUNNING) {
-      return TestResultStatus.TESTING
     }
-
-    if (actual.name == expected.name) {
-      return TestResultStatus.PASSED
-    }
-
-    return TestResultStatus.FAILED("Stage execution status($actual) does not match with expected status($expected).")
   }
 
   private fun determineOverallTestResult(
     pipelineTestResultStatus: TestResultStatus,
-    stageTestResults: List<StageTestResult>
+    stageTestResults: List<StageTestResult>,
+    timeout: Timeout,
+    startedAt: ZonedDateTime
   ): PipelineTestResult {
+    val executionDuration = timeHolder.now().toEpochSecond() - startedAt.toEpochSecond()
+    if (executionDuration > timeout.toSeconds()) {
+      return PipelineTestResult(
+        overallStatus = TestResultStatus.FAILED("Pipeline execution timed out. (timeout: $timeout)"),
+        detail = PipelineTestResultDetail(
+          stages = stageTestResults,
+          status = pipelineTestResultStatus
+        )
+      )
+    }
+
     if (pipelineTestResultStatus.isPassed() && stageTestResults.all { it.status.isPassed() }) {
       return PipelineTestResult(
         overallStatus = TestResultStatus.PASSED,

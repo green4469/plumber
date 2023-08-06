@@ -8,7 +8,7 @@ import com.yuminkim.plumber.core.model.specification.StageTestSpec
 import com.yuminkim.plumber.core.model.specification.TriggerPipelineSpec
 
 object PipelineTestSpecFixtures {
-  object ExpectingSuccess {
+  object ExpectingSucceeded {
     fun create(): PipelineTestSpec {
       return PipelineTestSpec(
         name = "Test Pipeline",
@@ -22,8 +22,12 @@ object PipelineTestSpecFixtures {
         ),
         stages = listOf(
           StageTestSpec(
-            // Stage test name has interdependency with pipeline execution
             name = "Build application",
+            description = "Expect Stage Succeeded",
+            expectedStatus = ExpectedStageTerminalStatus.SUCCEEDED
+          ),
+          StageTestSpec(
+            name = "Deploy",
             description = "Expect Stage Succeeded",
             expectedStatus = ExpectedStageTerminalStatus.SUCCEEDED
           )
