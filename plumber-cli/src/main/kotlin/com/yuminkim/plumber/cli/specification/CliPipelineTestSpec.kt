@@ -1,8 +1,8 @@
 package com.yuminkim.plumber.cli.specification
 
+import com.yuminkim.plumber.core.model.specification.ExpectedPipelineTerminalStatus
+import com.yuminkim.plumber.core.model.specification.ExpectedStageTerminalStatus
 import com.yuminkim.plumber.core.model.specification.PipelineEngineType
-import com.yuminkim.plumber.core.model.specification.PipelineTerminalStatus
-import com.yuminkim.plumber.core.model.specification.StageTerminalStatus
 
 class CliPipelineTestSpec(
   val pipeline: Pipeline
@@ -13,14 +13,14 @@ class Pipeline(
   val description: String,
   val trigger: Trigger,
   val stages: List<Stage>,
-  val expectedStatus: PipelineTerminalStatus,
+  val expectedStatus: ExpectedPipelineTerminalStatus,
   val timeout: String
 )
 
 class Stage(
   val name: String,
   val description: String,
-  val expectedStatus: StageTerminalStatus
+  val expectedStatus: ExpectedStageTerminalStatus
 )
 
 class Trigger(

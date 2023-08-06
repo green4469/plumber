@@ -10,9 +10,9 @@ pipeline:
   stages:
     - name: build
       description: Build stage
-      expectedStatus: SUCCESS
+      expectedStatus: SUCCEEDED
     - name: deploy
       description: Deploy stage
-      expectedStatus: SUCCESS
-  expectedStatus: SUCCESS
+      expectedStatus: SUCCEEDED
+  expectedStatus: SUCCEEDED
   timeout: 30m

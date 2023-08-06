@@ -4,6 +4,7 @@ plugins {
   id("org.springframework.boot") version "3.1.2"
   id("io.spring.dependency-management") version "1.1.2"
   id("org.jlleitschuh.gradle.ktlint") version "11.5.0"
+  jacoco
 
   kotlin("jvm") version "1.8.22"
   kotlin("plugin.spring") version "1.8.22"
@@ -32,6 +33,7 @@ subprojects {
     plugin("io.spring.dependency-management")
     plugin("kotlin")
     plugin("kotlin-spring")
+    plugin("jacoco")
 
     plugin("org.jlleitschuh.gradle.ktlint")
     plugin("org.gradle.java-test-fixtures")
@@ -65,5 +67,13 @@ subprojects {
 
   tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+  }
+
+  tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
+    reports {
+      xml.required.set(true)
+    }
   }
 }

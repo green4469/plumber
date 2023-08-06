@@ -1,7 +1,7 @@
 package com.yuminkim.plumber.core.model.specification
 
-enum class PipelineTerminalStatus {
-  SUCCESS,
-  FAILURE,
+enum class ExpectedPipelineTerminalStatus {
+  SUCCEEDED,
+  FAILED,
   ABORTED
 }
