@@ -36,10 +36,7 @@ class PipelineTester(
           name = stageTestSpec.name,
           status = TestResultStatus.FAILED("Stage execution(${stageTestSpec.name}) does not exist.")
         )
-
-      val stageTestResultStatus =
-        StageStatusTester.test(stageTestSpec.expectedStatus, stageExecution.status)
-
+      val stageTestResultStatus = StageStatusTester.test(stageTestSpec.expectedStatus, stageExecution.status)
       StageTestResult(
         name = stageTestSpec.name,
         status = stageTestResultStatus
@@ -53,45 +50,32 @@ class PipelineTester(
     timeout: Timeout,
     startedAt: ZonedDateTime
   ): PipelineTestResult {
+    val pipelineTestResultDetail = PipelineTestResultDetail(
+      stages = stageTestResults,
+      status = pipelineTestResultStatus
+    )
+
     val executionDuration = timeHolder.now().toEpochSecond() - startedAt.toEpochSecond()
     if (executionDuration > timeout.toSeconds()) {
-      return PipelineTestResult(
-        overallStatus = TestResultStatus.FAILED("Pipeline execution timed out. (timeout: $timeout)"),
-        detail = PipelineTestResultDetail(
-          stages = stageTestResults,
-          status = pipelineTestResultStatus
-        )
+      return PipelineTestResult.failed(
+        detail = pipelineTestResultDetail,
+        reason = "Pipeline execution timed out. (timeout: $timeout)"
       )
     }
 
     if (pipelineTestResultStatus.isPassed() && stageTestResults.allPassed()) {
-      return PipelineTestResult(
-        overallStatus = TestResultStatus.PASSED,
-        detail = PipelineTestResultDetail(
-          stages = stageTestResults,
-          status = pipelineTestResultStatus
-        )
-      )
+      return PipelineTestResult.passed(pipelineTestResultDetail)
     }
 
     if (pipelineTestResultStatus.isFailed() || stageTestResults.anyFailed()) {
-      return PipelineTestResult(
-        overallStatus = TestResultStatus.FAILED("One or more tests failed."),
-        detail = PipelineTestResultDetail(
-          stages = stageTestResults,
-          status = pipelineTestResultStatus
-        )
+      return PipelineTestResult.failed(
+        detail = pipelineTestResultDetail,
+        reason = "Pipeline execution failed."
       )
     }
 
-    if (pipelineTestResultStatus == TestResultStatus.TESTING || stageTestResults.anyTesting()) {
-      return PipelineTestResult(
-        overallStatus = TestResultStatus.TESTING,
-        detail = PipelineTestResultDetail(
-          stages = stageTestResults,
-          status = pipelineTestResultStatus
-        )
-      )
+    if (pipelineTestResultStatus.isTesting() || stageTestResults.anyTesting()) {
+      return PipelineTestResult.testing(pipelineTestResultDetail)
     }
 
     throw IllegalStateException("Unexpected test result status.")
