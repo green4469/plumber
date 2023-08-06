@@ -10,8 +10,5 @@ clean:
 format:
 	./gradlew ktlintFormat
 
-coverage: test
-	./gradlew jacocoRootReport
-
 test:
 	./gradlew test

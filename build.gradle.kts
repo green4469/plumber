@@ -74,25 +74,6 @@ subprojects {
     dependsOn(tasks.test) // tests are required to run before generating the report
     reports {
       xml.required.set(true)
-      html.required.set(true)
     }
-  }
-}
-
-task<JacocoReport>("jacocoRootReport") {
-  dependsOn(subprojects.map { it.tasks.withType<JacocoReport>() })
-  sourceDirectories.setFrom(subprojects.map { it.tasks.findByName("jacocoTestReport")!!.property("sourceDirectories") })
-  classDirectories.setFrom(subprojects.map { it.tasks.findByName("jacocoTestReport")!!.property("classDirectories") })
-  executionData.setFrom(
-    project.fileTree(".") {
-      include("**/build/jacoco/**.exec")
-    }
-  )
-  onlyIf {
-    true
-  }
-  reports {
-    xml.required.set(true)
-    html.required.set(true)
   }
 }
