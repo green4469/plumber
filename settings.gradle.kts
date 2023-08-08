@@ -1,6 +1,6 @@
-rootProject.name = "plumber-bot"
+rootProject.name = "plumber"
 
 include(
-  "plumber-core",
-  "plumber-cli"
+  ":plumber-bot:plumber-core",
+  ":plumber-bot:plumber-cli"
 )
