@@ -32,7 +32,7 @@ You can use the bot by **creating a specification file and running the bot with 
 listed in the specification. It sends the results to the specified notification channel.
 
 ```shell
-make run spec-file=$(pwd)/tests/0001_valid-pipeline-spec.yaml
+make run-bot-cli spec-file=$(pwd)/plumber-bot/tests/0001_valid-pipeline-spec.yaml
 ```
 
 # How it works
