@@ -1,8 +1,8 @@
-run-bot-cli: build
-	java -jar plumber-bot/plumber-cli/build/libs/plumber-cli-0.0.1-SNAPSHOT.jar --spec-file=$(spec-file)
+run-bot-cli: build-bot-cli
+	java -jar plumber-bot/plumber-bot-cli/build/libs/plumber-bot-cli-0.0.1-SNAPSHOT.jar --spec-file=$(spec-file)
 
 build-bot-cli: clean
-	./gradlew :plumber-bot:plumber-cli:build
+	./gradlew :plumber-bot:plumber-bot-cli:build
 
 clean:
 	./gradlew clean

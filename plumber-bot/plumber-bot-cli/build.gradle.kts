@@ -11,6 +11,6 @@ jar.enabled = true
 bootJar.enabled = true
 
 dependencies {
-  implementation(project(":plumber-bot:plumber-core"))
+  implementation(project(":plumber-bot:plumber-bot-core"))
   implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-yaml")
 }

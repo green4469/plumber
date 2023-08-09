@@ -1,6 +1,6 @@
 rootProject.name = "plumber"
 
 include(
-  ":plumber-bot:plumber-core",
-  ":plumber-bot:plumber-cli"
+  ":plumber-bot:plumber-bot-core",
+  ":plumber-bot:plumber-bot-cli"
 )
