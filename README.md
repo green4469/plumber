@@ -1,4 +1,4 @@
-# Plumber-Bot
+# Plumber
 [![codecov](https://codecov.io/gh/green4469/plumber-bot/branch/main/graph/badge.svg?token=LWKAMF6VPJ)](https://codecov.io/gh/green4469/plumber-bot)
 
 A general end-to-end pipeline testing bot that supports various CI/CD pipeline tools.
